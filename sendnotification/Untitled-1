@@ -1,17 +1,18 @@
-reg_token = "cvBSff8p9YI:APA91bEe38Sq4J8-6AlEdmbfNcKZiyAiII0l5Glsk6NWqPmdjBlxQLLgHJYGFJBp-sWFloMgPjzG_akdDikoJWmWfC8OXCfIW3ph7YEIo64IfnNNtGrQfdr0eTKLN3zbnFnkWfri7bP4"
-
+import firebase_admin
+from firebase_admin import credentials
 from firebase_admin import messaging
 
+from google.cloud import storage
 
 def send_to_token():
     # [START send_to_token]
     # This registration token comes from the client FCM SDKs.
-    registration_token = 'YOUR_REGISTRATION_TOKEN'
+    registration_token = open("registrationToken.txt").readline()
 
     # See documentation on defining a message payload.
     message = messaging.Message(
         data={
-            'score': '850',
+            'culprit': 'MilkMan',
             'time': '2:45',
         },
         token=registration_token,
@@ -24,3 +25,12 @@ def send_to_token():
     print('Successfully sent message:', response)
     # [END send_to_token]
 
+
+
+if (not len(firebase_admin._apps)):
+    cred = credentials.Certificate('certificate.json') 
+    default_app = firebase_admin.initialize_app(cred)
+
+#firebase_admin.storage.bucket(name=None, app=None)
+
+send_to_token()
