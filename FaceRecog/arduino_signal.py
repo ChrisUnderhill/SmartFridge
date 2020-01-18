@@ -19,12 +19,13 @@ while True:
     s = temp.decode("utf-8").strip()
     if s == "":
         continue
-    print("s", s)
+    #print("s", s)
     touch, pressure = s.split(",")[0], s.split(",")[1]
     new_pressure = int(pressure)
-    print("touch", touch)
-    print("pressure", pressure)
-    # if touch != "0":
+    #print("touch", touch)
+    #print("pressure", pressure)
+    if touch != "0":
+        print("Taking a picture")
     #     # take a picture
     #     timestr = time.strftime("%H%M%S-%d%m%Y")
     #     os.system("fswebcam -r 1280x720 " + timestr + ".jpg")
