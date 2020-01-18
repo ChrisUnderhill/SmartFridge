@@ -97,6 +97,8 @@ def who_is_it(filename):
         face_ids.append(face.face_id)
 
     # Identify faces
+    if not face_ids:
+        return ""
     results = face_client.face.identify(face_ids, PERSON_GROUP_ID)
     #print('Identifying faces in {}'.format(os.path.basename(image.name)))
     """if not results:
@@ -107,6 +109,8 @@ def who_is_it(filename):
                                                                                           person.candidates[
                                                                                               0].confidence))  # Get topmost confidence score
                                                                                               """
+    if not results:
+        return ""
     id = (results[0].candidates[0].person_id)
     return face_client.person_group_person.get(PERSON_GROUP_ID, id).name
 
