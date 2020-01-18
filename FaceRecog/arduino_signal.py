@@ -32,7 +32,11 @@ while True:
     #     print(quickstart.who_is_it(timestr + ".jpg"))
     #     ser.reset_input_buffer()
     #     time.sleep(5)
-    if new_pressure > old_pressure:
+    print(new_pressure)
+    if new_pressure - old_pressure > 10:
         on_put_down()
-    elif new_pressure < old_pressure:
+    elif new_pressure - old_pressure < -10:
         on_picked_up()
+    old_pressure = new_pressure
+    ser.reset_input_buffer()
+    time.sleep(0.1)
