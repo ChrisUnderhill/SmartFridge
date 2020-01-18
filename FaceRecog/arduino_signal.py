@@ -45,10 +45,16 @@ class Fridge:
 
     def on_door_close(self):
         print("They went away")
+        if self.person == "":
+            return
+        if self.new_pressure - self.old_pressure > 0:
+            self.on_put_down(self.new_pressure - self.old_pressure)
+        elif self.new_pressure - self.old_pressure < 0:
+            self.on_picked_up(self.old_pressure - self.new_pressure)
+        self.old_pressure = self.new_pressure
         self.person = ""
 
     def run(self):
-        old_pressure = self.old_pressure
         while True:
             temp = self.ser.readline();
             s = temp.decode("utf-8").strip()
@@ -59,19 +65,13 @@ class Fridge:
             # print("touch", touch)
             # print("pressure", pressure)
             if touch == "0":
-                if not self.door_open:
+                if self.person == "":
                     self.door_open = True
                     self.on_door_open()
             else:
                 if self.door_open:
                     self.door_open = False
                     self.on_door_close()
-            #print(new_pressure)
-            if new_pressure - old_pressure > 10:
-                self.on_put_down(new_pressure - old_pressure)
-            elif new_pressure - old_pressure < -10:
-                self.on_picked_up(old_pressure - new_pressure)
-            old_pressure = new_pressure
             self.ser.reset_input_buffer()
             time.sleep(0.1)
 
