@@ -1,42 +1,71 @@
 #!/usr/bin/python3
 
-import serial, string, time, os, quickstart
-from serial import Serial
+import serial, time, os
+from faces import who_is_it
 
 
-output = " "
-ser = serial.Serial('/dev/ttyACM0', 9600, 8, 'N', 1, timeout=1);
+class Fridge:
 
-def on_picked_up():
-    print("You picked something up")
+    def __init__(self):
+        self.weight_owned_by_people = {n: 0 for n in ["simon, andreas"]}
+        self.ser = serial.Serial('/dev/ttyACM0', 9600, 8, 'N', 1, timeout=1)
+        self.old_pressure = 0
+        self.person = ""
+        self.door_open = False
 
-def on_put_down():
-    print("You put something down")
+    @property
+    def weight_in_fridge(self):
+        return sum(self.weight_owned_by_people.values())
 
-old_pressure = 0
-while True:
-    temp = ser.readline();
-    s = temp.decode("utf-8").strip()
-    if s == "":
-        continue
-    #print("s", s)
-    touch, pressure = s.split(",")[0], s.split(",")[1]
-    new_pressure = int(pressure)
-    #print("touch", touch)
-    #print("pressure", pressure)
-    if touch != "0":
+    def on_picked_up(self, weight):
+        self.weight_owned_by_people[self.person] -= weight
+        print(self.person + " picked something up that weighed " + weight)
+
+    def on_put_down(self, weight):
+        self.weight_owned_by_people[self.person] += weight
+        print(self.person + " put something down that weighed " + weight)
+
+    def on_door_open(self):
         print("Taking a picture")
-    #     # take a picture
-    #     timestr = time.strftime("%H%M%S-%d%m%Y")
-    #     os.system("fswebcam -r 1280x720 " + timestr + ".jpg")
-    #     print(quickstart.who_is_it(timestr + ".jpg"))
-    #     ser.reset_input_buffer()
-    #     time.sleep(5)
-    print(new_pressure)
-    if new_pressure - old_pressure > 10:
-        on_put_down()
-    elif new_pressure - old_pressure < -10:
-        on_picked_up()
-    old_pressure = new_pressure
-    ser.reset_input_buffer()
-    time.sleep(0.1)
+        # take a picture
+        timestr = time.strftime("%H%M%S-%d%m%Y")
+        os.system("fswebcam -r 1280x720 " + timestr + ".jpg")
+        self.person = who_is_it(timestr + ".jpg")
+        print(self.person + " is at the fridge")
+        self.ser.reset_input_buffer()
+        time.sleep(5)
+
+    def on_door_close(self):
+        self.person = ""
+
+    def run(self):
+        old_pressure = self.old_pressure
+        while True:
+            temp = self.ser.readline();
+            s = temp.decode("utf-8").strip()
+            if len(s.split(",")) != 2:
+                continue
+            touch, pressure = s.split(",")[0], s.split(",")[1]
+            new_pressure = int(pressure)
+            # print("touch", touch)
+            # print("pressure", pressure)
+            if touch == "0":
+                if not door_open:
+                    door_open = True
+                    self.on_door_open()
+            else:
+                if door_open:
+                    door_open = False
+                    self.on_door_close()
+            print(new_pressure)
+            if new_pressure - old_pressure > 10:
+                self.on_put_down(new_pressure - old_pressure)
+            elif new_pressure - old_pressure < -10:
+                self.on_picked_up(old_pressure - new_pressure)
+            old_pressure = new_pressure
+            self.ser.reset_input_buffer()
+            time.sleep(0.1)
+
+
+fridge = Fridge()
+fridge.run()
