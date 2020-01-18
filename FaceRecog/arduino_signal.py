@@ -7,7 +7,7 @@ from faces import who_is_it
 class Fridge:
 
     def __init__(self):
-        self.weight_owned_by_people = {n: 0 for n in ["simon, andreas"]}
+        self.weight_owned_by_people = {n: 0 for n in ["Simon", "Andreas"]}
         self.ser = serial.Serial('/dev/ttyACM0', 9600, 8, 'N', 1, timeout=1)
         self.old_pressure = 0
         self.person = ""
@@ -18,24 +18,33 @@ class Fridge:
         return sum(self.weight_owned_by_people.values())
 
     def on_picked_up(self, weight):
+        if self.person == "":
+            print("I don't know who did that")
+            return
         self.weight_owned_by_people[self.person] -= weight
-        print(self.person + " picked something up that weighed " + weight)
+        print(self.person + " picked something up that weighed " + str(weight))
 
     def on_put_down(self, weight):
+        if self.person == "":
+            print("I don't know who did that")
+            return
         self.weight_owned_by_people[self.person] += weight
-        print(self.person + " put something down that weighed " + weight)
+        print(self.person + " put something down that weighed " + str(weight))
 
     def on_door_open(self):
         print("Taking a picture")
         # take a picture
         timestr = time.strftime("%H%M%S-%d%m%Y")
         os.system("fswebcam -r 1280x720 " + timestr + ".jpg")
-        self.person = who_is_it(timestr + ".jpg")
+        person = who_is_it(timestr + ".jpg")
+        if person != "":
+            self.person = person
         print(self.person + " is at the fridge")
         self.ser.reset_input_buffer()
         time.sleep(5)
 
     def on_door_close(self):
+        print("They went away")
         self.person = ""
 
     def run(self):
@@ -50,14 +59,14 @@ class Fridge:
             # print("touch", touch)
             # print("pressure", pressure)
             if touch == "0":
-                if not door_open:
-                    door_open = True
+                if not self.door_open:
+                    self.door_open = True
                     self.on_door_open()
             else:
-                if door_open:
-                    door_open = False
+                if self.door_open:
+                    self.door_open = False
                     self.on_door_close()
-            print(new_pressure)
+            #print(new_pressure)
             if new_pressure - old_pressure > 10:
                 self.on_put_down(new_pressure - old_pressure)
             elif new_pressure - old_pressure < -10:
