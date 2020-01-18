@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+/usr/bin/python3
 
 import serial, string, time, os, quickstart
 from serial import Serial
@@ -12,7 +12,6 @@ while True:
     if(temp  == b''):
         print("Off")
     else:
-        print(temp)
         timestr = time.strftime("%H%M%S-%d%m%Y")
         os.system("fswebcam -r 1280x720 " + timestr + ".jpg")
         print(quickstart.who_is_it(timestr + ".jpg"))
