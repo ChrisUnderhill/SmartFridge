@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">FridgeApp</string>
+    <string name="default_notification_channel_id">fridgeApp_default_channel</string>
+    <string name="log_token">Log Token</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+    <string name="default_notification_channel_name" translatable="true">Weather</string>
+    <string name="msg_subscribe_failed">Failed to subscribe to topic</string>
+    <string name="fcm_message">FCM Message</string>
 </resources>
