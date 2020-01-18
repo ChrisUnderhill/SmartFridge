@@ -50,7 +50,6 @@ void loop() {
   sensorValue = analogRead(sensorPin);
   if (sensorValue > 100){
     digitalWrite(ledPin, HIGH);
-    //Serial.println("1");
   }
   else {
     digitalWrite(ledPin, LOW);
@@ -77,8 +76,6 @@ void loop() {
       force = (fsrG - 0.00075) / 0.00000032639;
     else
       force =  fsrG / 0.000000642857;
-    //Serial.println("Force: " + String(force) + " g");
-    //Serial.println();
   }
   
   delay(100);

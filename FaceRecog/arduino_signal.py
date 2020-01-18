@@ -17,8 +17,10 @@ old_pressure = 0
 while True:
     temp = ser.readline();
     s = temp.decode("utf-8").strip()
+    if s == "":
+        continue
     print("s", s)
-    touch, pressure = s.split(",")
+    touch, pressure = s.split(",")[0], s.split(",")[1]
     new_pressure = int(pressure)
     print("touch", touch)
     print("pressure", pressure)
