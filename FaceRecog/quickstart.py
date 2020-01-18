@@ -107,7 +107,8 @@ def who_is_it(filename):
                                                                                           person.candidates[
                                                                                               0].confidence))  # Get topmost confidence score
                                                                                               """
-    return (results[0].candidates[0].person_id)
+    id = (results[0].candidates[0].person_id)
+    return face_client.person_group_person.get(PERSON_GROUP_ID, id).name
 
 def are_they_the_same_person(filename1, filename2):
     image1 = open(filename1, 'r+b')
@@ -131,8 +132,7 @@ def main():
     if filename == "train":
         train_group()
         quit()
-    mystery_person_id = (who_is_it(filename))
-    print(face_client.person_group_person.get(PERSON_GROUP_ID, mystery_person_id).name)
+    print(who_is_it(filename))
 
 if __name__ == "__main__":
     main()
