@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+//added
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -29,4 +31,10 @@ dependencies {
     //CHECK THIS IF IT DOESNT WORK
     //noinspection GradleCompatible
     implementation "com.android.support:support-compat:28.0.0"
+    //firebase
+    implementation 'com.google.firebase:firebase-core:17.2.1'
+    implementation 'com.google.firebase:firebase-iid:20.0.2'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
+    implementation 'android.arch.work:work-runtime:1.0.1'
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
 }

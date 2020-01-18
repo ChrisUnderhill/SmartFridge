@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "897068399684",
+    "firebase_url": "https://smartfridge-e5619.firebaseio.com",
+    "project_id": "smartfridge-e5619",
+    "storage_bucket": "smartfridge-e5619.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:897068399684:android:6a3bbf922a24fe5c1bd011",
+        "android_client_info": {
+          "package_name": "com.example.fridgeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "897068399684-mmo2bnk659ahggncfsepskvgkelcjanm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fridgeapp",
+            "certificate_hash": "81066dd02986fcd58c55dd44a67a33d7a1a69f7d"
+          }
+        },
+        {
+          "client_id": "897068399684-rnqd0c0v3cqn9kn67mfk0klla9eqs2v4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJAkLGcYDBRGBcFr9Vg6qDPgCekNqNDS8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "897068399684-rnqd0c0v3cqn9kn67mfk0klla9eqs2v4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
