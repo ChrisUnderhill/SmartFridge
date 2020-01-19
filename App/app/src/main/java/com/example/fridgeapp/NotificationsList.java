@@ -29,7 +29,7 @@ public class NotificationsList extends AppCompatActivity {
         data1.title = "I am a test title thing";
         data1.messageBody = "body";
         data1.datetime = new Date();
-        data1.imageLocation = "imagelocation"; //lol currently does nothing, fix in myadapater
+        data1.imageLocation = "/data/data/com.example.fridgeapp/files/test.jpg"; //lol currently does nothing, fix in myadapater
 
         data = new NotificationData[]{data1};
 

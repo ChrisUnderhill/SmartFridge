@@ -113,6 +113,7 @@ public class NotificationService extends FirebaseMessagingService {
                     Log.d(TAG, "failure!");
                 }
             });
+
             sendNotification(remoteMessage.getData().get("culprit"), destFilePath.toString());
 
         }
