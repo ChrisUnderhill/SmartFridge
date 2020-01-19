@@ -1,0 +1,4 @@
+*.jpg
+*/certificate.json
+*/registrationToken.txt
+*.out
