@@ -2,52 +2,68 @@
 
 from notifications import bucket, upload_blob
 import serial, time, os
-#from faces import who_is_it
-def who_is_it(filename):
-    return input("Whos there?")
+from faces import who_is_it
+#def who_is_it(filename):
+#    return input("Whos there?")
 
+def what_is_it(filename):
+    return "monster"
+
+class Item:
+    def __init__(self, weight, azure_id):
+        self.weight = weight
+        self.id = azure_id
+
+    def __eq__(self, other):
+        return self.id == other.id
+
+class Person:
+    def __init__(self, name):
+       self.name = name
+       self.fridge_objects = []
+
+    @property
+    def weight_owned(self):
+        return sum(item.weight for item in self.fridge_objects)
 
 class Fridge:
 
     def __init__(self):
-        self.weight_owned_by_people = {n: 0 for n in ["", "Simon", "Andreas"]}
+        self.people = {n: Person(n) for n in ["", "Simon", "Andreas"]}
         self.ser = serial.Serial('/dev/ttyACM0', 9600, 8, 'N', 1, timeout=1)
         self.old_pressure = 0
         self.new_pressure = 0
         self.person = ""
         self.door_open = False
 
-    @property
-    def weight_in_fridge(self):
-        return sum(self.weight_owned_by_people.values())
-
     def on_picked_up(self, weight):
         if self.person == "":
             print("I don't know who did that")
-            return
-        self.weight_owned_by_people[self.person] -= weight
-        print(self.person + " picked something up that weighed " + str(weight))
-        if self.weight_owned_by_people[self.person] < 0:
+        item = Item(weight, what_is_it(self.timestr))
+        if item in self.people[self.person].fridge_objects:
+            self.people[self.person].fridge_objects.remove(item)
+            print(self.person + " picked something up that weighed " + str(weight))
+        else:
            print("They shouldn't have taken that")
            self.on_intruder_detected()
 
-    def on_intruder_detected():
+    def on_intruder_detected(self):
        upload_blob(bucket, self.timestr + ".jpg", self.timestr)
        # send the picture somewhere
 
     def on_put_down(self, weight):
         if self.person == "":
             print("I don't know who did that")
-            return
-        self.weight_owned_by_people[self.person] += weight
-        print(self.person + " put something down that weighed " + str(weight))
+        item = what_is_it(self.timestr)
+        self.people[self.person].fridge_objects.append(Item(weight, item))
+        print(self.person + " put a " + item + " down that weighed " + str(weight))
 
     def on_door_open(self):
         print("Taking a picture")
         # take a picture
         self.timestr = time.strftime("%H%M%S-%d%m%Y")
-        #os.system("nohup fswebcam -r 1280x720 " + timestr + ".jpg")
-        person = who_is_it(timestr + ".jpg")
+        os.system("nohup fswebcam -r 1280x720 " + self.timestr + ".jpg")
+        person = who_is_it(self.timestr + ".jpg")
         if person != "":
             self.person = person
         print(self.person + " is at the fridge")
