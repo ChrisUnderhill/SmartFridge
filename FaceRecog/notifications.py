@@ -6,15 +6,20 @@ from firebase_admin import storage
 #from google.cloud import storage
 
 def send_to_token():
+    send_to_token_param("MilkMan", "2:45", "", "Milk")
+
+def send_to_token_param(culprit, time, image_location, item_stolen):
     # [START send_to_token]
     # This registration token comes from the client FCM SDKs.
-    registration_token = open("registrationToken.txt").readline()
+    registration_token = str(open("registrationToken.txt").readline())
 
     # See documentation on defining a message payload.
     message = messaging.Message(
         data={
-            'culprit': 'MilkMan',
-            'time': '2:45',
+            'culprit': culprit,
+            'time': time,
+            'imageLocation': image_location,
+            'itemStolen': item_stolen,
         },
         token=registration_token,
     )

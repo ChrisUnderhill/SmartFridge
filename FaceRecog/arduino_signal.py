@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from notifications import bucket, upload_blob
+from notifications import bucket, upload_blob, send_to_token
 import serial, time, os
 from faces import who_is_it
 #def who_is_it(filename):
@@ -49,7 +49,7 @@ class Fridge:
 
     def on_intruder_detected(self):
        upload_blob(bucket, self.timestr + ".jpg", self.timestr)
-       # send the picture somewhere
+       send_to_token()
 
     def on_put_down(self, weight):
         if self.person == "":
