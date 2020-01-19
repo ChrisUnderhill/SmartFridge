@@ -111,6 +111,8 @@ def who_is_it(filename):
                                                                                               """
     if not results:
         return ""
+    if not results[0].candidates:
+        return ""
     id = (results[0].candidates[0].person_id)
     return face_client.person_group_person.get(PERSON_GROUP_ID, id).name
 
