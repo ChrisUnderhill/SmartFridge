@@ -32,11 +32,16 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Blob;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.Executor;
 
 
@@ -87,8 +92,14 @@ public class NotificationService extends FirebaseMessagingService {
             // The name of the remote file to download
             String srcFilename = remoteMessage.getData().get("imageLocation");
 
+
+            // You need to make this randomised and unique so
             // The path to which the file should be downloaded
-            Path destFilePath = Paths.get(getFilesDir() + "/test.jpg");
+            Date date = new Date() ;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss") ;
+            String filename = "/" + new File(dateFormat.format(date) + ".jpg") ;
+            Path destFilePath = Paths.get(getFilesDir() + filename);
+            //Path destFilePath = Paths.get(getFilesDir() + "/test.jpg");
 
             // Create a storage reference from our app
             FirebaseStorage storageRef = FirebaseStorage.getInstance();
@@ -113,6 +124,32 @@ public class NotificationService extends FirebaseMessagingService {
                     Log.d(TAG, "failure!");
                 }
             });
+
+
+            // Save tbe message
+            NotificationData data1 = new NotificationData();
+            data1.title = remoteMessage.getData().get("culprit");
+            data1.messageBody = "Someone stole your " + remoteMessage.getData().get("itemStolen")+"!";
+            data1.datetime = new Date(Long.parseLong(remoteMessage.getData().get("time")));
+            data1.imageLocation = destFilePath.toString();
+
+            try {
+                String csvChunk = data1.toCSV();
+                Path CSVPath = Paths.get(getFilesDir() + "/database.csv");
+                File database = new File(CSVPath.toString());
+                FileWriter fw = new FileWriter(database, true);
+                BufferedWriter bw = new BufferedWriter(fw);
+
+                bw.write(csvChunk);
+                bw.close();
+                fw.close();
+            }
+            catch(Exception e){
+                Log.e(TAG, "Something gone very very very wrong with file writing the database.");
+            }
+
+
+
 
             sendNotification(remoteMessage.getData().get("culprit"), destFilePath.toString(), remoteMessage);
 

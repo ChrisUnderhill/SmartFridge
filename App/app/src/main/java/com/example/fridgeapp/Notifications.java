@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Date;
 
 public class Notifications extends AppCompatActivity {
 
@@ -32,7 +33,8 @@ public class Notifications extends AppCompatActivity {
         bodyView.setText(getIntent().getStringExtra("body"));
 
         TextView dateTimeView = findViewById(R.id.detailsDateTime);
-        dateTimeView.setText(getIntent().getStringExtra("dateTime"));
+        Date date = new Date(Long.parseLong(getIntent().getStringExtra("dateTime")));
+        dateTimeView.setText(date.toString());
 
         final ImageView imageView = findViewById(R.id.detailsImage);
         imageView.setImageURI(Uri.fromFile(new File(getIntent().getStringExtra("imageLocation"))));

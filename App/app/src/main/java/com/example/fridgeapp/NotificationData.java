@@ -17,20 +17,22 @@ public class NotificationData {
     public int itemQuantity;
 
     public String toCSV(){
-        return id + ", " + title + ", " + messageBody + ", " + datetime.toString() + ", " + imageLocation + ", " + itemName + ", " + itemQuantity + ", " + inUnits + "\n";
+        return id + ", " + title + ", " + messageBody + ", " + datetime.getTime() + ", " + imageLocation + ", " + itemName + ", " + itemQuantity + ", " + inUnits + "\n";
     }
 
-    public void fromCSV(String csv){
+    public NotificationData fromCSV(String csv){
         String[] splitty = csv.split(", ");
 
         this.id = parseInt(splitty[0]);
         this.title = splitty[1];
         this.messageBody = splitty[2];
-        this.datetime = new Date(LocalDate.parse(splitty[3]).toEpochDay());
+        this.datetime =  new Date(Long.parseLong(splitty[3]));
         this.imageLocation = splitty[4];
         this.itemName = splitty[5];
         this.itemQuantity = parseInt(splitty[6]);
         this.inUnits = splitty[7];
+
+        return this;
 
     }
 }
