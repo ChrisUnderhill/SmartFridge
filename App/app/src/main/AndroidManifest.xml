@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".NotificationsList"></activity>
+        <activity android:name=".FridgeContentsList"></activity>
+        <activity android:name=".NotificationsList" />
         <activity
             android:name=".NotificationsHistory"
             android:label="@string/title_activity_notifications_history"

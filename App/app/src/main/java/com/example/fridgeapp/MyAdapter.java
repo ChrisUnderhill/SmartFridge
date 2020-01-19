@@ -46,7 +46,7 @@ public class MyAdapter extends ArrayAdapter<NotificationData> {
         dateTimeView.setText(notification.datetime.toString());
 
         ImageView iconView = recycledView.findViewById(R.id.notificationItemIcon);
-        iconView.setImageResource(R.drawable.fui_ic_googleg_color_24dp);
+        iconView.setImageResource(R.drawable.ic_stat_ic_notification);
 
         return recycledView;
     }

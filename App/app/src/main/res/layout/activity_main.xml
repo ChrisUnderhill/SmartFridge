@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/ic_stat_ic_notification" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonNotifications"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -28,26 +28,24 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonFridgeContents"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:onClick="FridgeContentsTab"
         android:text="@string/fridge_contents_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonNotifications" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/buttonFridgeHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:text="@string/fridge_history_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button2"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonFridgeContents" />
 </androidx.constraintlayout.widget.ConstraintLayout>

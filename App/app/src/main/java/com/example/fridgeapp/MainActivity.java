@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
                         // Log and toast
                         String msg = getString(R.string.msg_token_fmt, token);
-                        Log.d(TAG, msg);
+                        Log.d(TAG, "TOKEN IS:   " +  msg);
                         Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -49,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
     /** Called when the user taps the Notifications button */
     public void notificationsTab(View view) {
         Intent intent = new Intent(this, NotificationsList.class);
+        startActivity(intent);
+    }
+
+    public void FridgeContentsTab(View view) {
+        Intent intent = new Intent(this,FridgeContentsList.class);
         startActivity(intent);
     }
 

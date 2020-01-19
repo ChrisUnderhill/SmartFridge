@@ -17,7 +17,6 @@ public class NotificationsList extends AppCompatActivity {
     private MyAdapter mAdapter;
     private NotificationData[] data;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,11 +24,11 @@ public class NotificationsList extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.myListView);
 
         NotificationData data1 = new NotificationData();
-
         data1.title = "I am a test title thing";
         data1.messageBody = "body";
         data1.datetime = new Date();
-        data1.imageLocation = "/data/data/com.example.fridgeapp/files/test.jpg"; //lol currently does nothing, fix in myadapater
+        data1.imageLocation = "/data/data/com.example.fridgeapp/files/test.jpg";
+
 
         data = new NotificationData[]{data1};
 
@@ -50,4 +49,6 @@ public class NotificationsList extends AppCompatActivity {
             }
         });
     }
+
+
 }

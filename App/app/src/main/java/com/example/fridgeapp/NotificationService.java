@@ -85,7 +85,7 @@ public class NotificationService extends FirebaseMessagingService {
             String bucketName = "smartfridge-e5619";
 
             // The name of the remote file to download
-            String srcFilename = "testBlob";
+            String srcFilename = remoteMessage.getData().get("imageLocation");
 
             // The path to which the file should be downloaded
             Path destFilePath = Paths.get(getFilesDir() + "/test.jpg");
@@ -114,7 +114,7 @@ public class NotificationService extends FirebaseMessagingService {
                 }
             });
 
-            sendNotification(remoteMessage.getData().get("culprit"), destFilePath.toString());
+            sendNotification(remoteMessage.getData().get("culprit"), destFilePath.toString(), remoteMessage);
 
         }
 
@@ -156,10 +156,13 @@ public class NotificationService extends FirebaseMessagingService {
         Log.d(TAG, "Registration Token:" + token);
     }
 
-    private void sendNotification(String messageBody, String imageLocation) {
+    private void sendNotification(String messageBody, String imageLocation, RemoteMessage remoteMessage) {
         Intent intent = new Intent(this, Notifications.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("FileLocation",imageLocation);
+        intent.putExtra("title",remoteMessage.getData().get("culprit"));
+        intent.putExtra("body", "SOMEONE STOLE YOUR " + remoteMessage.getData().get("itemStolen") + "!!!!");
+        intent.putExtra("dateTime", remoteMessage.getData().get("time"));
+        intent.putExtra("imageLocation", imageLocation);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
